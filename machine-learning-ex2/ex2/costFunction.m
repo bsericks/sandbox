@@ -19,11 +19,26 @@ grad = zeros(size(theta));
 %
 % Note: grad should have the same dimensions as theta
 %
+total=0;
+for i=1:m
+  %hsigma(x) = g(sigmaTx)
+  %g(z) = 1/(1+e^-z)
+  %hsigma(x) = 1/(1+e^(-sigmaTx))
+  %fprintf("%f, %f\n", X(i,2), y(i));
+  %fprintf('iteration = %f, total = %f \n', ((theta(1)+(theta(2)*X(i))-y(i))**2), total);
+  hypothesis = 1/(1+e^(theta'*X(i,:)'));
+  
+  total=total+(y(i)*log(hypothesis) + (1-y(i))*log(1-hypothesis));
+  
+  
+  
+  %pause;
+endfor
 
+%hypothesisBiggie = 1/(1+e^(X*theta));
+%Jbiggie = (1/m) * (-y'*log(hypothesisBiggie)-(1-y)'*log(1-hypothesisBiggie));
 
-
-
-
+J = -(1/(m))*total;
 
 
 
