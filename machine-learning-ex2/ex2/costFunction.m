@@ -10,7 +10,7 @@ m = length(y); % number of training examples
 % You need to return the following variables correctly 
 J = 0;
 grad = zeros(size(theta));
-
+tempGrad = zeros(size(theta));
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
 %               You should set J to the cost.
@@ -30,13 +30,16 @@ for i=1:m
   
   total=total+(y(i)*log(hypothesis) + (1-y(i))*log(1-hypothesis));
   
+  for j=1:(size(theta)(1))
+    tempGrad(j) = tempGrad(j)+((hypothesis)-y(i))*X(i,j);
+  endfor
   
   
   %pause;
 endfor
 
-%hypothesisBiggie = 1/(1+e^(X*theta));
-%Jbiggie = (1/m) * (-y'*log(hypothesisBiggie)-(1-y)'*log(1-hypothesisBiggie));
+grad = tempGrad/m;
+
 
 J = -(1/(m))*total;
 
