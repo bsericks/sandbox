@@ -10,16 +10,42 @@ m = length(y); % number of training examples
 % You need to return the following variables correctly 
 J = 0;
 grad = zeros(size(theta));
+tempGrad = zeros(size(theta));
 
+n = length(theta);
+total = 0;
+
+total2 = 0;2
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
 %               You should set J to the cost.
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+for i=1:m
+  
+  hypothesis = sigmoid(theta'*X(i,:)');
+  
+  total=total+(y(i)*log(hypothesis) + (1-y(i))*log(1-hypothesis));
+  
+  for j=1:(size(theta)(1))
+    tempGrad(j) = tempGrad(j)+((hypothesis)-y(i))*X(i,j);
+  endfor
+  
+endfor
 
+for j=1:n
+  total2 = total2 + (theta(j)^2);
+endfor
 
+grad = tempGrad/m;
 
+for j=2:(size(theta)(1))
+    tempGrad(j) = tempGrad(j)+(lambda/m * theta(j));
+endfor
+    
+total2 = (lambda/(2*m))*total2;
+J = -(1/(m))*total + total2;
 
 
 % =============================================================

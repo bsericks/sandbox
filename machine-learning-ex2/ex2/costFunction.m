@@ -11,6 +11,7 @@ m = length(y); % number of training examples
 J = 0;
 grad = zeros(size(theta));
 tempGrad = zeros(size(theta));
+
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
 %               You should set J to the cost.
@@ -26,7 +27,7 @@ for i=1:m
   %hsigma(x) = 1/(1+e^(-sigmaTx))
   %fprintf("%f, %f\n", X(i,2), y(i));
   %fprintf('iteration = %f, total = %f \n', ((theta(1)+(theta(2)*X(i))-y(i))**2), total);
-  hypothesis = 1/(1+e^(theta'*X(i,:)'));
+  hypothesis = sigmoid(theta'*X(i,:)');
   
   total=total+(y(i)*log(hypothesis) + (1-y(i))*log(1-hypothesis));
   
