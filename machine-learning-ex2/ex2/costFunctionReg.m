@@ -15,7 +15,7 @@ tempGrad = zeros(size(theta));
 n = length(theta);
 total = 0;
 
-total2 = 0;2
+total2 = 0;
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
 %               You should set J to the cost.
@@ -26,7 +26,7 @@ for i=1:m
   
   hypothesis = sigmoid(theta'*X(i,:)');
   
-  total=total+(y(i)*log(hypothesis) + (1-y(i))*log(1-hypothesis));
+  total=total+(-y(i)*log(hypothesis) - (1-y(i))*log(1-hypothesis));
   
   for j=1:(size(theta)(1))
     tempGrad(j) = tempGrad(j)+((hypothesis)-y(i))*X(i,j);
@@ -34,18 +34,34 @@ for i=1:m
   
 endfor
 
-for j=1:n
-  total2 = total2 + (theta(j)^2);
-endfor
+shift_theta = theta(2:size(theta));
+theta_reg = [0;shift_theta];
+total2 = (lambda/(2*m))*(theta_reg'*theta_reg);
+
 
 grad = tempGrad/m;
 
 for j=2:(size(theta)(1))
-    tempGrad(j) = tempGrad(j)+(lambda/m * theta(j));
+    grad(j) = grad(j)+(lambda/m * theta(j));
 endfor
     
-total2 = (lambda/(2*m))*total2;
-J = -(1/(m))*total + total2;
+%total2 = (lambda/(2*m))*total2;
+total = total/m;
+J = (total+total2);
+
+%===========================================
+h = sigmoid(X*theta);
+% J = (1/m)*sum(-y .* log(h) - (1 - y) .* log(1-h));
+shift_theta = theta(2:size(theta));
+theta_reg = [0;shift_theta];
+
+%J = (1/m)*(-y'* log(h) - (1 - y)'*log(1-h))+(lambda/(2*m))*theta_reg'*theta_reg;
+
+% grad_zero = (1/m)*X(:,1)'*(h-y);
+% grad_rest = (1/m)*(shift_x'*(h - y)+lambda*shift_theta);
+% grad      = cat(1, grad_zero, grad_rest);
+
+%grad = (1/m)*(X'*(h-y)+lambda*theta_reg);
 
 
 % =============================================================
